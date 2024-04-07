@@ -1,0 +1,13 @@
+# Arquivo gerado automaticamente por dbIT
+# Autor: Vanduir Santana
+# mac|ip|nome|descricao|status|
+# Obs: Nao colocar caracteres especiais como _ no nome
+#98:de:d0:dc:db:bb|172.16.0.20|roteador|roteador tp-link|1|
+#c4:6e:1f:4d:b5:c2|172.16.0.20|roteador|roteador tp-link|1|
+e4:11:5b:c1:63:ca|172.16.0.22|notl|Notebook Vanduir|1|
+d0:50:99:28:32:02|172.16.0.23|pc|PC Vanduir|1|
+0c:ec:84:0a:4c:fd|172.16.0.44|cel-claus|celular Claus|1| 
+#b8:27:eb:89:74:05|172.16.0.222|rpi|rpi testes|1|
+02:05:03:82:66:00|172.16.4.22|bpi-r1|Banana PI R1|1|
+#84:2b:2b:7e:4c:35|172.16.0.48|tmp-24-07-2019-14-03-08|host tmp por dbit-mac-visitante|2|
+#b8:27:eb:d3:8b:e7|172.16.0.52|tmp-27-04-2020-12-28-52|host tmp por dbit-mac-visitante|2|

@@ -1,0 +1,132 @@
+#
+# Sample configuration file for ISC dhcpd for Debian
+#
+#
+
+# The ddns-updates-style parameter controls whether or not the server will
+# attempt to do a DNS update when a lease is confirmed. We default to the
+# behavior of the version 2 packages ('none', since DHCP v2 didn't
+# have support for DDNS.)
+ddns-update-style none;
+
+# option definitions common to all supported networks...
+option broadcast-address 172.16.255.255;
+option domain-name "dbit.net";
+option domain-name-servers 172.16.4.20;
+
+# pra que não fique toda hora emitindo o evento commit é preciso q os dados abaixo estejam 
+# com um valor bastante alto
+default-lease-time 172800; # <testes> 2 dias em segundos
+max-lease-time 172900;     # <testes> 
+
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+authoritative;
+
+# Use this to send dhcp log messages to a different log file (you also
+# have to hack syslog.conf to complete the redirection).
+log-facility local7;
+
+# Vanduir
+deny unknown-clients;
+on commit {
+      log("========COMMIT===========");
+      set ClientIP = binary-to-ascii(10, 8, ".", leased-address);
+      set ClientMAC = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));
+      # Vanduir: corrigir bug e descomentar linha abaixo
+      execute("/home/vanduir/dev/mac-visitante/visitante.py", ClientIP, ClientMAC);
+      #execute("/root/dev/mac-visitante/visitante.py", ClientIP, ClientMAC);
+}
+##on expiry { log("=======EXPIRY==========="); }
+##on release { log("=======RELEASE========="); }
+# <pxe>
+allow bootp;
+allow booting;
+option client-arch code 93 = unsigned integer 16;
+# </pxe>
+
+subnet 172.16.0.0 netmask 255.255.0.0 {
+  range 172.16.0.46 172.16.0.60;  # <testes> diminui range
+  option subnet-mask 255.255.0.0;
+  option domain-name-servers 172.16.4.20;
+  option domain-name "dbit.net";
+  option routers 172.16.4.20;
+
+  # <pxe>
+  set vendorclass = option vendor-class-identifier;
+  if exists user-class and option user-class = "iPXE" {
+       log("-------------------------");
+       log("1- boot iPXE http");
+      filename "http://dbit.net/boot/boot.ipxe";
+  } elsif exists client-arch {
+     if option client-arch = encode-int(0, 16) {
+       log("-------------------------");
+       log("2- boot PXE BIOS");
+       filename "undionly.kpxe";
+     } elsif option client-arch = encode-int(6, 16) {
+       log("-------------------------");
+       log("3- boot PXE 32-bit x86 EFI");
+       filename "ipxe.efi";
+     } elsif option client-arch = encode-int(7, 16) {
+       log("-------------------------");
+       log("4- boot PXE 64-bit x86 EFI");
+       filename "ipxe.efi";
+     } elsif option client-arch = encode-int(9, 16) {
+       log("-------------------------");
+       log("5- boot PXE 64-bit x86 EFI (obsolete)");
+       #filename "bin-x86_64-efi/ipxe.efi";
+     } elsif option client-arch = encode-int(10, 16) {
+       log("-------------------------");
+       log("6- boot PXE 32-bit ARM EFI");
+       #filename "bin-arm32-efi/ipxe.efi";
+     } elsif option client-arch = encode-int(11, 16) {
+       log("-------------------------");
+       log("7- boot PXE 64-bit ARM EFI");
+       #filename "bin-arm64-efi/ipxe.efi";
+     } elsif option client-arch = encode-int(16, 16) {
+       option vendor-class-identifier "HTTPClient";
+       log("-------------------------");
+       log("8- boot iPXE 64-bit UEFI from http");
+       filename "http://dbit.net/boot/ipxe.efi";
+     }
+  }
+  next-server 172.16.4.20;
+  # </pxe>
+}
+
+# You can declare a class of clients and then do address allocation
+# based on that.   The example below shows a case where all clients
+# in a certain class get addresses on the 10.17.224/24 subnet, and all
+# other clients get addresses on the 10.0.29/24 subnet.
+
+#class "foo" {
+#  match if substring (option vendor-class-identifier, 0, 4) = "SUNW";
+#}
+
+#shared-network 224-29 {
+#  subnet 10.17.224.0 netmask 255.255.255.0 {
+#    option routers rtr-224.example.org;
+#  }
+#  subnet 10.0.29.0 netmask 255.255.255.0 {
+#    option routers rtr-29.example.org;
+#  }
+#  pool {
+#    allow members of "foo";
+#    range 10.17.224.10 10.17.224.250;
+#  }
+#  pool {
+#    deny members of "foo";
+#    range 10.0.29.10 10.0.29.230;
+#  }
+#}
+
+# Fixed IP addresses can also be specified for hosts.   These addresses
+# should not also be listed as being available for dynamic assignment.
+# Hosts for which fixed IP addresses have been specified can boot using
+# BOOTP or DHCP.   Hosts for which no fixed address is specified can only
+# be booted with DHCP, unless there is an address range on the subnet
+# to which a BOOTP client is connected which has the dynamic-bootp flag
+# set.
+
+
+

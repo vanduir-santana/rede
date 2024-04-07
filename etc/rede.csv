@@ -1,0 +1,25 @@
+# Arquivo gerado automaticamente por dbIT
+# Autor: Vanduir Santana
+# mac|ip|nome|descricao|status|
+# Obs: Nao colocar caracteres especiais como _ no nome
+#STATUS_BLOQUEADO="0"    # bloqueado o acesso a internet
+#STATUS_PROXY="1"        # liberado pra navegar usando o proxy
+#STATUS_LIBERADO="2"     # totalmente liberado
+#STATUS_LOGIN_CP=3       # redireciona porta 80 pra porta do app web mac-visitante pra fazer login
+#STATUS_LIBERADO_CP=4    # apos cadastro do visitante eh liberado acesso
+#
+#98:de:d0:dc:db:bb|172.16.0.20|roteador|roteador tp-link|1|
+#c4:6e:1f:4d:b5:c2|172.16.0.20|roteador|roteador tp-link|1|
+#e4:11:5b:c1:63:ca|172.16.0.22|not|not v|2|
+#d0:50:99:28:32:02|172.16.0.30|pc|desktop|2|
+00:e0:4e:30:b2:68|172.16.0.22|pc|desktop|2|
+b8:27:eb:89:74:05|172.16.0.28|rpi|meu rpi|2|
+d8:12:65:f8:bf:bb|172.16.0.29|tv|tv sony|2|
+#d0:50:99:28:32:02|10.1.1.11|pc-ad|desktop segunda conf. de rede|2|
+#02:05:03:82:66:00|172.16.0.46|bpi-r1|Banana Pi R1|2|
+02:05:03:82:66:00|10.1.1.222|dc1|Banana Pi R1|2|
+84:37:d5:53:2a:6b|172.16.0.44|cel-claus|celular Claus|2|
+a0:ac:69:da:1c:96|172.16.0.45|cel-v|meu cel|2|
+#a4:1f:72:f9:4b:e3|172.16.0.46|mtu-not-cabo|mtu-not|2|
+#48:5a:b6:f4:a5:81|172.16.0.47|mtu-not-wifi|mtu-not|2|
+#b0:47:bf:d1:df:09|172.16.0.48|mtu-not-wifi|mtu-not|2|
